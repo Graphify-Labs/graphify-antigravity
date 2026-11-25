@@ -1,0 +1,31 @@
+name: Validate plugin
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the Antigravity CLI
+        run: curl -fsSL https://antigravity.google/cli/install.sh | bash
+      - name: Validate with the Antigravity loader
+        run: |
+          "$HOME/.local/bin/agy" plugin validate --strict .
+          "$HOME/.local/bin/agy" plugin validate --json . | jq -e '.components.rules == 1 and .components.mcpServers == 1'
+      - name: Keep the hosted OAuth connection unchanged
+        # One remote server, no credentials, commands or headers.
+        run: |
+          jq -e '(keys == ["mcpServers"]) and (.mcpServers | keys == ["graphify"]) and (.mcpServers.graphify == {"serverUrl": "https://api.graphify.com/mcp"})' mcp_config.json
+      - name: Check Marketplace manifest fields
+        run: |
+          jq -e '[.name, .displayName, .description, .version, .logo, .author.name] | all(type == "string" and length > 0)' plugin.json
+          jq -e '.suggestedPrompts | length >= 1 and length <= 3' plugin.json
+          test -f "$(jq -r .logo plugin.json)"

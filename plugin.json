@@ -1,0 +1,30 @@
+{
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "name": "graphify",
+  "displayName": "Graphify",
+  "version": "1.0.0",
+  "description": "Shared codebase context for Antigravity: search indexed code, trace callers and dependencies, check change impact, and recall team Memory.",
+  "logo": "assets/logo.png",
+  "suggestedPrompts": [
+    "List my Graphify workspaces and repositories",
+    "Using Graphify, find where authentication is implemented in this repository and cite the files",
+    "Which linked tests should I check before changing this function?"
+  ],
+  "author": {
+    "name": "Graphify Labs",
+    "email": "founders@graphify.com",
+    "url": "https://graphify.com"
+  },
+  "homepage": "https://graphify.com",
+  "repository": "https://github.com/Graphify-Labs/graphify-antigravity",
+  "license": "Apache-2.0",
+  "keywords": [
+    "graphify",
+    "mcp",
+    "codebase context",
+    "code graph",
+    "code search",
+    "change impact",
+    "team memory"
+  ]
+}
